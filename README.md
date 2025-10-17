@@ -1,4 +1,6 @@
 # BedrockDB
+*Not to be confused with [BedrockDB](https://bedrockdb.com/)*
+
 A simple database for MCBE add-ons (scripts)
 
 ## Requirements
