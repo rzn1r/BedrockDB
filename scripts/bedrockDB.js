@@ -1,11 +1,5 @@
 // bedrockDB.ts
-// A lightweight, type-safe database for Minecraft Bedrock Edition
-// using dynamicProperties.
-//
-// Example usage:
-//   const db = new BedrockDB<PlayerData>("playerData");
-//   db.set("foo", { level: 3, xp: 150 });
-//   const data = db.get("foo");
+// A lightweight, type-safe database for Minecraft Bedrock Editimport
 import { world } from "@minecraft/server";
 /**
  * The global namespace prefix for all stored dynamic properties.
@@ -79,6 +73,15 @@ export class BedrockDB {
      */
     has(key) {
         return world.getDynamicProperty(this.fullKey(key)) !== undefined;
+    }
+    /**
+     * Clear all keys stored under this database name.
+     */
+    clear() {
+        const keysToDelete = this.keys();
+        for (const key of keysToDelete) {
+            this.delete(key);
+        }
     }
     /**
      * Get all keys stored under this database name.
