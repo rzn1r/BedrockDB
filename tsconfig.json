@@ -6,9 +6,10 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": "./src",
     "rootDir": "./src",
-    "outDir": "./scripts"
+    "outDir": "./scripts",
+    "types": ["jest"]
   },
   "exclude": [ "node_modules" ],
-  "include": [ "src" ]
+  "include": [ "src", "tests", "test.d.ts"]
 }
 

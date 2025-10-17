@@ -11,14 +11,19 @@
     "url": "git+https://github.com/rzn1r/BedrockDB.git"
   },
   "license": "MIT",
-  "author": "",
-  "type": "commonjs",
+  "author": "Rezn1r",
+  "type": "module",
   "main": "scripts/bedrockDB.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx jest"
   },
   "dependencies": {
     "@minecraft/server": "^2.2.0",
     "typescript": "^5.9.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^30.0.0",
+    "jest": "^30.2.0",
+    "ts-jest": "^29.4.5"
   }
 }
