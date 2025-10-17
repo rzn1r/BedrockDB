@@ -4,7 +4,7 @@ A simple database for MCBE add-ons (scripts)
 ## Usage
 
 ``` js
-import { BedrockDB } from "./BedrockDB.js";
+import { BedrockDB } from "./bedrockDB.js";
 
 const db = new BedrockDB("myDatabase");
 
