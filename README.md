@@ -1,6 +1,18 @@
 # BedrockDB
 A simple database for MCBE add-ons (scripts)
 
+## Requirements
+
+You will need this on your manifest's `dependency`
+
+```json
+{
+    "module_name": "@minecraft/server",
+    "version": "2.3.0"
+}
+
+```
+
 ## Usage
 
 ``` js
