@@ -29,9 +29,15 @@ console.log(value); // Outputs: value
 db.set("key", "newValue");
 console.log(db.get("key")); // Outputs: newValue
 
+// Check if the key exists
+db.has("key"); // Outputs: true
+
 // Delete values
 db.delete("key");
 console.log(db.get("key")); // Outputs: undefined
+
+// Clear the database
+db.clear(); // Outputs: void
 
 ```
 
@@ -42,7 +48,7 @@ console.log(db.get("key")); // Outputs: undefined
 - Supports basic data types (string, number, boolean, object, array)
 
 ## Installation
-1. Download the `BedrockDB.js` file from the repository.
+1. Download the `bedrockDB.js` file from the repository.
 2. Place it in your MCBE add-on `scripts/` folder.
 3. Import and use it in your scripts as shown in the usage example.
 
