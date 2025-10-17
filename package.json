@@ -1,0 +1,24 @@
+{
+  "name": "bedrockdb",
+  "version": "1.0.0",
+  "description": "A sime database for MCBE add-ons (scripts)",
+  "homepage": "https://github.com/rzn1r/BedrockDB#readme",
+  "bugs": {
+    "url": "https://github.com/rzn1r/BedrockDB/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rzn1r/BedrockDB.git"
+  },
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "scripts/bedrockDB.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@minecraft/server": "^2.2.0",
+    "typescript": "^5.9.3"
+  }
+}

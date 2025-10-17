@@ -1,0 +1,105 @@
+// bedrockDB.ts
+// A lightweight, type-safe database for Minecraft Bedrock Edition
+// using dynamicProperties.
+//
+// Example usage:
+//   const db = new BedrockDB<PlayerData>("playerData");
+//   db.set("foo", { level: 3, xp: 150 });
+//   const data = db.get("foo");
+
+import { world } from "@minecraft/server";
+
+/**
+ * The global namespace prefix for all stored dynamic properties.
+ * This prevents name collisions with other scripts or add-ons.
+ */
+const NAMESPACE = "bedrockDB:";
+
+/**
+ * A small wrapper around Minecraft's dynamic properties,
+ * providing simple get/set/delete/update methods for structured data.
+ */
+export class BedrockDB<T = any> {
+  private dbName: string;
+
+  /**
+   * Create a new database instance.
+   * @param dbName A short unique identifier for this database (e.g. "playerData")
+   */
+  constructor(dbName: string) {
+    this.dbName = dbName;
+  }
+
+  /**
+   * Construct a full namespaced property key.
+   * @param key The internal key within this database.
+   */
+  private fullKey(key: string): string {
+    return `${NAMESPACE}${this.dbName}:${key}`;
+  }
+
+  /**
+   * Store a value in the database.
+   * @param key Unique identifier within this database.
+   * @param value Any serializable data (object, string, number, etc.)
+   */
+  set(key: string, value: T): void {
+    const json = JSON.stringify(value);
+    world.setDynamicProperty(this.fullKey(key), json);
+  }
+
+  /**
+   * Retrieve a value from the database.
+   * Returns `null` if not found or failed to parse.
+   * @param key Unique identifier within this database.
+   */
+  get(key: string): T | null {
+    const raw = world.getDynamicProperty(this.fullKey(key));
+
+    if (raw === undefined) return null;
+
+    try {
+      return JSON.parse(raw as string) as T;
+    } catch (error) {
+      console.warn(`[BedrockDB] Failed to parse data for key "${key}":`, error);
+      return null;
+    }
+  }
+
+  /**
+   * Delete a key from the database.
+   * @param key Unique identifier within this database.
+   */
+  delete(key: string): void {
+    world.setDynamicProperty(this.fullKey(key), undefined);
+  }
+
+  /**
+   * Update an existing key.
+   * (Internally identical to set, included for readability.)
+   * @param key Unique identifier within this database.
+   * @param newValue The new value to store.
+   */
+  update(key: string, newValue: T): void {
+    this.set(key, newValue);
+  }
+
+  /**
+   * Check if a key exists.
+   * @param key Unique identifier within this database.
+   */
+  has(key: string): boolean {
+    return world.getDynamicProperty(this.fullKey(key)) !== undefined;
+  }
+
+  /**
+   * Get all keys stored under this database name.
+   * (Useful for iterating or debugging)
+   */
+  keys(): string[] {
+    return world
+      .getDynamicPropertyIds()
+      .filter((id) => id.startsWith(`${NAMESPACE}${this.dbName}:`))
+      .map((id) => id.replace(`${NAMESPACE}${this.dbName}:`, ""));
+  }
+}
