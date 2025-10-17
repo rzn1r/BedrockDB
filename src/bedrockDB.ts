@@ -5,15 +5,15 @@ import { world } from "@minecraft/server";
 
 /**
  * The global namespace prefix for all stored dynamic properties.
- * This prevents name collisions with other scripts or add-ons.
+ * This prevents name collisions with other scripts or add-on
  */
 
 const NAMESPACE = "bedrockDB:";
 
 /**
- * A small wrapper around Minecraft's dynamic properties,
- * providing simple get/set/delete/update methods for structured data.
+ * A small wrapper around Minecraft's dynamic properties
  */
+
 export class BedrockDB<T = any> {
   private dbName: string;
 
