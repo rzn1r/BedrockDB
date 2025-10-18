@@ -15,15 +15,17 @@
   "type": "module",
   "main": "scripts/bedrockDB.js",
   "scripts": {
+    "build": "tsc && terser scripts/bedrockDB.js -o scripts/bedrockDB.min.js --compress --mangle",
     "test": "npx jest"
   },
   "dependencies": {
-    "@minecraft/server": "^2.2.0",
-    "typescript": "^5.9.3"
+    "@minecraft/server": "^2.2.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
-    "ts-jest": "^29.4.5"
+    "terser": "^5.44.0",
+    "ts-jest": "^29.4.5",
+    "typescript": "^5.9.3"
   }
 }

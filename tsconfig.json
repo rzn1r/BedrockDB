@@ -7,9 +7,13 @@
     "baseUrl": "./src",
     "rootDir": "./src",
     "outDir": "./scripts",
-    "types": ["jest"]
-  },
-  "exclude": [ "node_modules" ],
-  "include": [ "src", "tests", "test.d.ts"]
-}
+    "types": ["jest"],
 
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "skipLibCheck": true
+  },
+  "exclude": ["node_modules"],
+  "include": ["src"]
+}
