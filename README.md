@@ -50,7 +50,7 @@ db.clear(); // Outputs: void
 - Supports basic data types (string, number, boolean, object, array)
 
 ## Installation
-1. Download the `bedrockDB.js` file from the [releases](https://github.com/rzn1r/BedrockDB)   
+1. Download the `bedrockDB.js` file from the repo
 2. Place it in your MCBE add-on `scripts/` folder.
 3. Import and use it in your scripts as shown in the usage example.
 
