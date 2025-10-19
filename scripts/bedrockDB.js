@@ -58,15 +58,6 @@ export class BedrockDB {
         world.setDynamicProperty(this.fullKey(key), undefined);
     }
     /**
-     * Update an existing key.
-     * (Internally identical to set, included for readability.)
-     * @param key Unique identifier within this database.
-     * @param newValue The new value to store.
-     */
-    update(key, newValue) {
-        this.set(key, newValue);
-    }
-    /**
      * Check if a key exists.
      * @param key Unique identifier within this database.
      */

@@ -70,16 +70,6 @@ export class BedrockDB<T = any> {
   }
 
   /**
-   * Update an existing key.
-   * (Internally identical to set, included for readability.)
-   * @param key Unique identifier within this database.
-   * @param newValue The new value to store.
-   */
-  update(key: string, newValue: T): void {
-    this.set(key, newValue);
-  }
-
-  /**
    * Check if a key exists.
    * @param key Unique identifier within this database.
    */
