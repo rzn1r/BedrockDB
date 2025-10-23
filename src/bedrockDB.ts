@@ -81,6 +81,34 @@ export class BedrockDB<T = any> {
     return world.getDynamicProperty(this.fullKey(key)) !== undefined;
   }
 
+  /**
+   * Increment a numeric value by a specified amount.
+   * If the key does not exist, it will be initialized to 0 before incrementing.
+   * @param key Unique identifier within this database.
+   * @param amount The amount to increment by (default is 1).
+   * @returns The new value after incrementing.
+   */
+  increment(key: string, amount: number = 1): number {
+    let currentValue = this.get(key) as unknown as number;
+    if (currentValue === null || isNaN(currentValue)) {
+      currentValue = 0;
+    }
+    const newValue = currentValue + amount;
+    this.set(key, newValue as unknown as T);
+    return newValue;
+  }
+
+  /** 
+   * Decrement a numeric value by a specified amount.
+   * If the key does not exist, it will be initialized to 0 before decrementing.
+   * @param key Unique identifier within this database.
+   * @param amount The amount to decrement by (default is 1).
+   * @returns The new value after decrementing.
+   */
+  decrement(key: string, amount: number = 1): number {
+    return this.increment(key, -amount);
+  }
+
   /** 
    * Clear all keys stored under this database name.
    */

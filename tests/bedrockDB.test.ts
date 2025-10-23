@@ -46,6 +46,28 @@ describe("BedrockDB", () => {
     expect(db.keys().sort()).toEqual(["a", "b"]);
   });
 
+  test("increment() increases numeric values", () => {
+    db.set("count", 5);
+    db.increment("count", 3);
+    expect(db.get("count")).toBe(8);
+  });
+
+  test("increment() initializes missing keys to the increment value", () => {
+    db.increment("newCount", 4);
+    expect(db.get("newCount")).toBe(4);
+  });
+
+  test("decrement() decreases numeric values", () => {
+    db.set("count", 10);
+    db.decrement("count", 4);
+    expect(db.get("count")).toBe(6);
+  });
+
+  test("decrement() initializes missing keys to the negative decrement value", () => {
+    db.decrement("newCount", 3);
+    expect(db.get("newCount")).toBe(-3);
+  });
+
   test("clear() removes all keys", () => {
     db.set("x", 1);
     db.set("y", 2);
