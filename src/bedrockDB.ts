@@ -1,7 +1,7 @@
 // bedrockDB.ts
 // A lightweight, type-safe database for Minecraft Bedrock Editimport
 
-import { world } from "@minecraft/server";
+import { world, Vector3 } from "@minecraft/server";
 
 /**
  * The global namespace prefix for all stored dynamic properties.
@@ -39,6 +39,10 @@ export class BedrockDB<T = any> {
    * @param value Any serializable data (object, string, number, etc.)
    */
   set(key: string, value: T): void {
+    // check if value is serializable
+    if (value === undefined) {
+      throw new Error("Cannot store undefined value in BedrockDB.");
+    }
     const json = JSON.stringify(value);
     world.setDynamicProperty(this.fullKey(key), json);
   }

@@ -20,6 +20,10 @@ describe("BedrockDB", () => {
     expect(result).toEqual({ bar: 42 });
   });
 
+  test("check if will throw error if undefined key", () => {
+    expect(() => db.set("foo", undefined)).toThrow();
+  });
+
   test("returns null if key missing", () => {
     expect(db.get("missing")).toBeNull();
   });
