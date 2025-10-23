@@ -30,6 +30,10 @@ export class BedrockDB {
      * @param value Any serializable data (object, string, number, etc.)
      */
     set(key, value) {
+        // check if value is serializable
+        if (value === undefined) {
+            throw new Error("Cannot store undefined value in BedrockDB.");
+        }
         const json = JSON.stringify(value);
         world.setDynamicProperty(this.fullKey(key), json);
     }
