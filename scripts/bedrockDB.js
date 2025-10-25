@@ -16,6 +16,9 @@ export class BedrockDB {
      */
     constructor(dbName) {
         this.dbName = dbName;
+        if (!dbName || dbName.includes(":")) {
+            throw new Error("Invalid database name. It must be a non-empty string without colons.");
+        }
     }
     /**
      * Construct a full namespaced property key.

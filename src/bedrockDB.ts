@@ -1,7 +1,7 @@
 // bedrockDB.ts
 // A lightweight, type-safe database for Minecraft Bedrock Editimport
 
-import { world, Vector3 } from "@minecraft/server";
+import { world } from "@minecraft/server";
 
 /**
  * The global namespace prefix for all stored dynamic properties.
@@ -23,6 +23,9 @@ export class BedrockDB<T = any> {
    */
   constructor(dbName: string) {
     this.dbName = dbName;
+    if (!dbName || dbName.includes(":")) {
+      throw new Error("Invalid database name. It must be a non-empty string without colons.");
+    }
   }
 
   /**
