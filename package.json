@@ -15,7 +15,7 @@
   "type": "module",
   "main": "scripts/bedrockDB.js",
   "scripts": {
-    "build": "tsc && terser scripts/bedrockDB.js -o scripts/bedrockDB.min.js --compress --mangle && npx prettier src/ --write && npx prettier scripts/ --write",
+    "build": "tsc && terser scripts/bedrockDB.js -o scripts/bedrockDB.min.js --compress --mangle && npx prettier src/ --write && npx prettier scripts/bedrockDB.js --write",
     "test": "npx jest"
   },
   "dependencies": {
