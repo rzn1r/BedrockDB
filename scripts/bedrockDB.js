@@ -10,110 +10,110 @@ const NAMESPACE = "bedrockDB:";
  * A small wrapper around Minecraft's dynamic properties
  */
 export class BedrockDB {
-    /**
-     * Create a new database instance.
-     * @param dbName A short unique identifier for this database (e.g. "playerData")
-     */
-    constructor(dbName) {
-        this.dbName = dbName;
-        if (!dbName || dbName.includes(":")) {
-            throw new Error("Invalid database name. It must be a non-empty string without colons.");
-        }
+  /**
+   * Create a new database instance.
+   * @param dbName A short unique identifier for this database (e.g. "playerData")
+   */
+  constructor(dbName) {
+    this.dbName = dbName;
+    if (!dbName || dbName.includes(":")) {
+      throw new Error(
+        "Invalid database name. It must be a non-empty string without colons.",
+      );
     }
-    /**
-     * Construct a full namespaced property key.
-     * @param key The internal key within this database.
-     */
-    fullKey(key) {
-        return `${NAMESPACE}${this.dbName}:${key}`;
+  }
+  /**
+   * Construct a full namespaced property key.
+   * @param key The internal key within this database.
+   */
+  fullKey(key) {
+    return `${NAMESPACE}${this.dbName}:${key}`;
+  }
+  /**
+   * Store a value in the database.
+   * @param key Unique identifier within this database.
+   * @param value Any serializable data (object, string, number, etc.)
+   */
+  set(key, value) {
+    // check if value is serializable
+    if (value === undefined) {
+      throw new Error("Cannot store undefined value in BedrockDB.");
     }
-    /**
-     * Store a value in the database.
-     * @param key Unique identifier within this database.
-     * @param value Any serializable data (object, string, number, etc.)
-     */
-    set(key, value) {
-        // check if value is serializable
-        if (value === undefined) {
-            throw new Error("Cannot store undefined value in BedrockDB.");
-        }
-        const json = JSON.stringify(value);
-        world.setDynamicProperty(this.fullKey(key), json);
+    const json = JSON.stringify(value);
+    world.setDynamicProperty(this.fullKey(key), json);
+  }
+  /**
+   * Retrieve a value from the database.
+   * Returns `null` if not found or failed to parse.
+   * @param key Unique identifier within this database.
+   */
+  get(key) {
+    const raw = world.getDynamicProperty(this.fullKey(key));
+    if (raw === undefined) return null;
+    try {
+      return JSON.parse(raw);
+    } catch (error) {
+      console.warn(`[BedrockDB] Failed to parse data for key "${key}":`, error);
+      return null;
     }
-    /**
-     * Retrieve a value from the database.
-     * Returns `null` if not found or failed to parse.
-     * @param key Unique identifier within this database.
-     */
-    get(key) {
-        const raw = world.getDynamicProperty(this.fullKey(key));
-        if (raw === undefined)
-            return null;
-        try {
-            return JSON.parse(raw);
-        }
-        catch (error) {
-            console.warn(`[BedrockDB] Failed to parse data for key "${key}":`, error);
-            return null;
-        }
+  }
+  /**
+   * Delete a key from the database.
+   * @param key Unique identifier within this database.
+   */
+  delete(key) {
+    world.setDynamicProperty(this.fullKey(key), undefined);
+  }
+  /**
+   * Check if a key exists.
+   * @param key Unique identifier within this database.
+   */
+  has(key) {
+    return world.getDynamicProperty(this.fullKey(key)) !== undefined;
+  }
+  /**
+   * Increment a numeric value by a specified amount.
+   * If the key does not exist, it will be initialized to 0 before incrementing.
+   * @param key Unique identifier within this database.
+   * @param amount The amount to increment by (default is 1).
+   * @returns The new value after incrementing.
+   */
+  increment(key, amount = 1) {
+    let currentValue = this.get(key);
+    if (currentValue === null || isNaN(currentValue)) {
+      currentValue = 0;
     }
-    /**
-     * Delete a key from the database.
-     * @param key Unique identifier within this database.
-     */
-    delete(key) {
-        world.setDynamicProperty(this.fullKey(key), undefined);
+    const newValue = currentValue + amount;
+    this.set(key, newValue);
+    return newValue;
+  }
+  /**
+   * Decrement a numeric value by a specified amount.
+   * If the key does not exist, it will be initialized to 0 before decrementing.
+   * @param key Unique identifier within this database.
+   * @param amount The amount to decrement by (default is 1).
+   * @returns The new value after decrementing.
+   */
+  decrement(key, amount = 1) {
+    return this.increment(key, -amount);
+  }
+  /**
+   * Clear all keys stored under this database name.
+   */
+  clear() {
+    const keysToDelete = this.keys();
+    for (const key of keysToDelete) {
+      this.delete(key);
     }
-    /**
-     * Check if a key exists.
-     * @param key Unique identifier within this database.
-     */
-    has(key) {
-        return world.getDynamicProperty(this.fullKey(key)) !== undefined;
-    }
-    /**
-     * Increment a numeric value by a specified amount.
-     * If the key does not exist, it will be initialized to 0 before incrementing.
-     * @param key Unique identifier within this database.
-     * @param amount The amount to increment by (default is 1).
-     * @returns The new value after incrementing.
-     */
-    increment(key, amount = 1) {
-        let currentValue = this.get(key);
-        if (currentValue === null || isNaN(currentValue)) {
-            currentValue = 0;
-        }
-        const newValue = currentValue + amount;
-        this.set(key, newValue);
-        return newValue;
-    }
-    /**
-     * Decrement a numeric value by a specified amount.
-     * If the key does not exist, it will be initialized to 0 before decrementing.
-     * @param key Unique identifier within this database.
-     * @param amount The amount to decrement by (default is 1).
-     * @returns The new value after decrementing.
-     */
-    decrement(key, amount = 1) {
-        return this.increment(key, -amount);
-    }
-    /**
-     * Clear all keys stored under this database name.
-     */
-    clear() {
-        const keysToDelete = this.keys();
-        for (const key of keysToDelete) {
-            this.delete(key);
-        }
-    }
-    /**
-     * Get all keys stored under this database name.
-     * (Useful for iterating or debugging)
-     */
-    keys() {
-        return world
-            .getDynamicPropertyIds()
-            .filter((id) => id.startsWith(`${NAMESPACE}${this.dbName}:`))
-            .map((id) => id.replace(`${NAMESPACE}${this.dbName}:`, ""));
-    }
+  }
+  /**
+   * Get all keys stored under this database name.
+   * (Useful for iterating or debugging)
+   */
+  keys() {
+    return world
+      .getDynamicPropertyIds()
+      .filter((id) => id.startsWith(`${NAMESPACE}${this.dbName}:`))
+      .map((id) => id.replace(`${NAMESPACE}${this.dbName}:`, ""));
+  }
 }

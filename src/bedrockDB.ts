@@ -24,7 +24,9 @@ export class BedrockDB<T = any> {
   constructor(dbName: string) {
     this.dbName = dbName;
     if (!dbName || dbName.includes(":")) {
-      throw new Error("Invalid database name. It must be a non-empty string without colons.");
+      throw new Error(
+        "Invalid database name. It must be a non-empty string without colons.",
+      );
     }
   }
 
@@ -101,7 +103,7 @@ export class BedrockDB<T = any> {
     return newValue;
   }
 
-  /** 
+  /**
    * Decrement a numeric value by a specified amount.
    * If the key does not exist, it will be initialized to 0 before decrementing.
    * @param key Unique identifier within this database.
@@ -112,7 +114,7 @@ export class BedrockDB<T = any> {
     return this.increment(key, -amount);
   }
 
-  /** 
+  /**
    * Clear all keys stored under this database name.
    */
   clear(): void {

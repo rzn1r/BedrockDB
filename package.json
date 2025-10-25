@@ -15,7 +15,7 @@
   "type": "module",
   "main": "scripts/bedrockDB.js",
   "scripts": {
-    "build": "tsc && terser scripts/bedrockDB.js -o scripts/bedrockDB.min.js --compress --mangle",
+    "build": "tsc && terser scripts/bedrockDB.js -o scripts/bedrockDB.min.js --compress --mangle && npx prettier src/ --write && npx prettier scripts/ --write",
     "test": "npx jest"
   },
   "dependencies": {
@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/jest": "^30.0.0",
     "jest": "^30.2.0",
+    "prettier": "3.6.2",
     "terser": "^5.44.0",
     "ts-jest": "^29.4.5",
     "typescript": "^5.9.3"
